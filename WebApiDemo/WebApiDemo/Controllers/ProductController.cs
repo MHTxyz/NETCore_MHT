@@ -25,12 +25,6 @@ namespace WebApiDemo.Controllers
             _productRepository = productRepository;
         }
 
-        [HttpGet("Index")]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
         public IActionResult GetProducts()
         {
@@ -59,9 +53,10 @@ namespace WebApiDemo.Controllers
             return Ok(result);
         }
 
+        //[HttpGet("GetProduct/{id}",Name = "GetProduct")]
         //[HttpGet("getProduct/{id}")]
-        [Route("{id}",Name ="GetProduct")]
-        public IActionResult GetProduct(int id, bool includeMaterial =false)
+        [HttpGet,Route("{id}",Name ="GetProduct")]
+        public IActionResult GetProduct(int id, bool includeMaterial = false)
         {
             #region MyRegion
             /*
@@ -159,6 +154,7 @@ namespace WebApiDemo.Controllers
                 return StatusCode(500, "新增产品失败");
             }
             var dto = AutoMapper.Mapper.Map<ProductWithoutMaterialDto>(newProduct);
+
             return CreatedAtRoute("GetProduct", new { id = dto.Id }, dto);
         }
 

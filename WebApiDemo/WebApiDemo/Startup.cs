@@ -30,6 +30,11 @@ namespace WebApiDemo
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(options=> 
+            {
+                options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info() { Title="My API", Version= "v1", });
+            });
+
             services.AddMvc()
                 .AddMvcOptions(options =>
                 {
@@ -73,6 +78,11 @@ namespace WebApiDemo
             {
                 app.UseExceptionHandler();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             //添加种子数据到数据库
             myContext.EnsureSeedDataForContext();
